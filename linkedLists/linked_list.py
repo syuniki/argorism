@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Any
+from typing import Any, Optional
 
 
 class Node:
@@ -71,6 +71,30 @@ class LinkedList:
 
         self.head = _reverse_recursive(self.head, None)
 
+    def reverse_even(self) -> None:
+        # 1, 4, 6, 8, 9 => 1, 8, 6, 4, 9 (連続する偶数だけ並び替える)
+        def _reverse_even(head: Node, previous_node: Node) -> Optional[Node]:
+            if head is None:
+                return None
+
+            current_node = head
+            while current_node and current_node.data % 2 == 0:
+                next_node = current_node.next
+                current_node.next = previous_node
+
+                previous_node = current_node
+                current_node = next_node
+
+            if current_node != head:
+                head.next = current_node
+                _reverse_even(current_node, None)
+                return previous_node
+            else:
+                head.next = _reverse_even(head.next, head)
+                return head
+
+        self.head = _reverse_even(self.head, None)
+
     def print(self) -> None:
         current_node = self.head
         while current_node:
@@ -80,10 +104,14 @@ class LinkedList:
 
 if __name__ == "__main__":
     l = LinkedList()
-    l.append(1)
-    l.append(2)
-    l.append(3)
-    l.insert(0)
+    l.append(4)
+    l.append(6)
+    l.append(8)
+    l.append(9)
+    l.append(4)
+    l.append(6)
+    l.append(8)
+    l.insert(1)
     l.print()
     print("###############")
     l.reverse_iterative()
@@ -91,4 +119,8 @@ if __name__ == "__main__":
     print("###############")
     l.reverse_recursive()
     l.print()
+    print("###############")
+    l.reverse_even()
+    l.print()
+
     # l.remove(2)
