@@ -14,6 +14,14 @@ class Queue:
             return self.queue.pop(0)
 
 
+def reverse(queue: deque) -> deque:
+    new_queue = deque()
+    while queue:
+        new_queue.append(queue.pop())
+    [queue.append(d) for d in new_queue]
+    # return new_queue
+
+
 if __name__ == "__main__":
     # dequeライブラリの利用
     q = deque()
@@ -22,11 +30,8 @@ if __name__ == "__main__":
     q.append(3)
     q.append(4)
     print(q)
-    print(q.popleft())
-    print(q.popleft())
+    reverse(q)
     print(q)
-    print(q.popleft())
-    print(q.popleft())
 
     # 自作クラスの利用
     # q = Queue()
